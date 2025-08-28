@@ -17,7 +17,7 @@ export default function Hero() {
         {/* Hero software screenshot on the right side */}
         <div className="absolute inset-0">
           <div
-            className="absolute right-0 top-0 w-3/5 h-full bg-cover bg-center bg-no-repeat"
+            className="absolute right-0 top-0 w-3/5 h-full bg-cover bg-[-600px] md:bg-center bg-no-repeat"
             style={{
               backgroundImage: `url('/hero.png')`,
               maskImage:
