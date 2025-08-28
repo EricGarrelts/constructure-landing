@@ -69,72 +69,79 @@ export default function Navbar({
         </div>
       </div>
 
-      {/* Raffle Announcement Bar */}
-      <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-4 sm:px-6 shadow-md">
-        <div className="max-w-9xl mx-auto">
-          {/* Desktop Layout */}
-          <div className="hidden sm:flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Gift className="w-5 h-5 text-orange-200 flex-shrink-0" />
-              <div className="flex items-center space-x-6">
-                <span className="font-bold text-sm lg:text-base">
-                  Free Software! Join Constructure's 1st year raffle for the
-                  chance to win free custom software!
-                </span>
-                <div className="flex items-center space-x-2">
-                  <Clock className="w-4 h-4 text-orange-200" />
-                  <span className="font-semibold text-sm">
-                    Closes in: {timeLeft.days}d {timeLeft.hours}h{" "}
-                    {timeLeft.minutes}m {timeLeft.seconds}s
+      {/* Raffle Announcement Bar - Only show if there's time left */}
+      {(timeLeft.days > 0 ||
+        timeLeft.hours > 0 ||
+        timeLeft.minutes > 0 ||
+        timeLeft.seconds > 0) && (
+        <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-4 sm:px-6 shadow-md">
+          <div className="max-w-9xl mx-auto">
+            {/* Desktop Layout */}
+            <div className="hidden sm:flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <Gift className="w-5 h-5 text-orange-200 flex-shrink-0" />
+                <div className="flex items-center space-x-6">
+                  <span className="font-bold text-sm lg:text-base">
+                    Free Software! Join Constructure's 1st year raffle for the
+                    chance to win free custom software!
                   </span>
+                  <div className="flex items-center space-x-2">
+                    <Clock className="w-4 h-4 text-orange-200" />
+                    <span className="font-semibold text-sm">
+                      Closes in: {timeLeft.days}d {timeLeft.hours}h{" "}
+                      {timeLeft.minutes}m {timeLeft.seconds}s
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <Dialog
-              open={isRaffleModalOpen}
-              onOpenChange={setIsRaffleModalOpen}
-            >
-              <DialogTrigger asChild>
-                <button className="cursor-pointer bg-white/20 hover:bg-white/30 text-white px-4 py-2 font-semibold text-sm transition-all duration-200 hover:shadow-lg border border-white/30 flex-shrink-0">
-                  Enter for Free
-                </button>
-              </DialogTrigger>
-            </Dialog>
-          </div>
-
-          {/* Mobile Layout */}
-          <div className="sm:hidden">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center space-x-2">
-                <Gift className="w-4 h-4 text-orange-200 flex-shrink-0" />
-                <span className="font-bold text-xs">Free Software Raffle!</span>
               </div>
               <Dialog
                 open={isRaffleModalOpen}
                 onOpenChange={setIsRaffleModalOpen}
               >
                 <DialogTrigger asChild>
-                  <button className="cursor-pointer bg-white/20 hover:bg-white/30 text-white px-3 py-1 font-semibold text-xs transition-all duration-200 border border-white/30 flex-shrink-0">
-                    Enter Free
+                  <button className="cursor-pointer bg-white/20 hover:bg-white/30 text-white px-4 py-2 font-semibold text-sm transition-all duration-200 hover:shadow-lg border border-white/30 flex-shrink-0">
+                    Enter for Free
                   </button>
                 </DialogTrigger>
               </Dialog>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-orange-100">
-                Win free custom software!
-              </span>
-              <div className="flex items-center space-x-1">
-                <Clock className="w-3 h-3 text-orange-200" />
-                <span className="font-semibold text-xs">
-                  {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m{" "}
-                  {timeLeft.seconds}s
+
+            {/* Mobile Layout */}
+            <div className="sm:hidden">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center space-x-2">
+                  <Gift className="w-4 h-4 text-orange-200 flex-shrink-0" />
+                  <span className="font-bold text-xs">
+                    Free Software Raffle!
+                  </span>
+                </div>
+                <Dialog
+                  open={isRaffleModalOpen}
+                  onOpenChange={setIsRaffleModalOpen}
+                >
+                  <DialogTrigger asChild>
+                    <button className="cursor-pointer bg-white/20 hover:bg-white/30 text-white px-3 py-1 font-semibold text-xs transition-all duration-200 border border-white/30 flex-shrink-0">
+                      Enter Free
+                    </button>
+                  </DialogTrigger>
+                </Dialog>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-orange-100">
+                  Win free custom software!
                 </span>
+                <div className="flex items-center space-x-1">
+                  <Clock className="w-3 h-3 text-orange-200" />
+                  <span className="font-semibold text-xs">
+                    {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m{" "}
+                    {timeLeft.seconds}s
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 }

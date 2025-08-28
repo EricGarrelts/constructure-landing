@@ -35,7 +35,7 @@ export default function RaffleModal({
 }: RaffleModalProps) {
   return (
     <Dialog open={isRaffleModalOpen} onOpenChange={setIsRaffleModalOpen}>
-      <DialogContent className="sm:max-w-[600px] bg-white border-0 rounded-none">
+      <DialogContent className="sm:max-w-[700px] bg-white border-0 rounded-none">
         <DialogHeader className="text-left pb-4">
           <div className="mb-0">
             <DialogTitle className="text-2xl font-bold text-gray-900 mb-1">
@@ -47,7 +47,10 @@ export default function RaffleModal({
           </div>
         </DialogHeader>
 
-        <form onSubmit={handleRaffleSubmit} className="space-y-6">
+        <form
+          onSubmit={handleRaffleSubmit}
+          className="space-y-6 max-h-[80vh] overflow-y-auto"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label

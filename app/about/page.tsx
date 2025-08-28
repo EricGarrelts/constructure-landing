@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import {
   Building2,
   Users,
@@ -13,42 +14,63 @@ import {
   TrendingUp,
 } from "lucide-react";
 
+// Import landing components
+import Navbar from "@/components/landing/navbar";
+import Footer from "@/components/landing/footer";
+
 export default function About() {
+  const [typedText, setTypedText] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
+  const [isRaffleModalOpen, setIsRaffleModalOpen] = useState(false);
+
+  // Zero time left to disable raffle functionality
+  const timeLeft = {
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  };
+
+  // Typewriter effect for "Constructure"
+  useEffect(() => {
+    const text = "Constructure";
+    let currentIndex = 0;
+
+    const typeTimer = setInterval(() => {
+      if (currentIndex <= text.length) {
+        setTypedText(text.substring(0, currentIndex));
+        currentIndex++;
+      } else {
+        clearInterval(typeTimer);
+
+        // After typing is complete, blink cursor twice then hide
+        let blinkCount = 0;
+        const blinkTimer = setInterval(() => {
+          setShowCursor((prev) => !prev);
+          blinkCount++;
+
+          // After 6 blinks (3 complete cycles), hide cursor permanently
+          if (blinkCount >= 6) {
+            clearInterval(blinkTimer);
+            setShowCursor(false);
+          }
+        }, 500);
+      }
+    }, 100);
+
+    return () => clearInterval(typeTimer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
-      {/* Simple Navbar */}
-      <nav className="sticky top-0 z-50 bg-white border-b border-gray-100 px-6 py-4 shadow-sm">
-        <div className="max-w-9xl mx-auto flex items-center justify-between">
-          <a href="/" className="flex items-center space-x-3 cursor-pointer">
-            <img src="/logo.svg" alt="Constructure Logo" className="w-8 h-8" />
-            <h1 className="text-2xl font-bold text-blue-900 tracking-tight">
-              Constructure
-            </h1>
-          </a>
-          <div className="flex items-center space-x-8">
-            <div className="hidden md:flex items-center space-x-8">
-              <a
-                href="/#solutions"
-                className="text-gray-700 hover:text-blue-900 transition-colors font-medium"
-              >
-                Solutions
-              </a>
-              <a
-                href="/#industries"
-                className="text-gray-700 hover:text-blue-900 transition-colors font-medium"
-              >
-                Industries
-              </a>
-              <a href="/about" className="text-blue-900 font-semibold">
-                About
-              </a>
-            </div>
-            <button className="cursor-pointer bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 font-semibold text-sm transition-all duration-200 hover:shadow-lg">
-              Start Building
-            </button>
-          </div>
-        </div>
-      </nav>
+      {/* Landing Navbar */}
+      <Navbar
+        typedText={typedText}
+        showCursor={showCursor}
+        timeLeft={timeLeft}
+        isRaffleModalOpen={isRaffleModalOpen}
+        setIsRaffleModalOpen={setIsRaffleModalOpen}
+      />
 
       {/* Hero Section */}
       <section className="relative py-24 px-6 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white">
@@ -352,113 +374,8 @@ export default function About() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gradient-to-b from-slate-900 to-black text-white py-16 px-6">
-        <div className="max-w-9xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-12">
-            <div className="md:col-span-2">
-              <div className="flex items-center space-x-3 mb-6">
-                <img
-                  src="/logo.svg"
-                  alt="Constructure Logo"
-                  className="w-10 h-10"
-                />
-                <h3 className="text-3xl font-bold text-orange-400">
-                  Constructure
-                </h3>
-              </div>
-              <p className="text-lg text-gray-300 mb-8 leading-relaxed max-w-md">
-                Enterprise-grade construction management software that scales
-                with your business.
-              </p>
-            </div>
-            <div>
-              <h4 className="text-xl font-semibold mb-6 text-orange-400">
-                Solutions
-              </h4>
-              <ul className="space-y-4">
-                <li>
-                  <a
-                    href="/"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Project Management
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Workflow Automation
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Software Extensions
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xl font-semibold mb-6 text-orange-400">
-                Company
-              </h4>
-              <ul className="space-y-4">
-                <li>
-                  <a
-                    href="/about"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Contact
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Support
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 mt-12 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="text-gray-400 mb-4 md:mb-0">
-                <p>&copy; 2025 Constructure. All rights reserved.</p>
-              </div>
-              <div className="flex space-x-8 text-sm">
-                <a
-                  href="/"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Privacy Policy
-                </a>
-                <a
-                  href="/"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Terms of Service
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* Landing Footer */}
+      <Footer />
     </div>
   );
 }
