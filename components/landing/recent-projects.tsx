@@ -4,7 +4,7 @@ import { Rocket, ArrowUpRight } from "lucide-react";
 
 export default function RecentProjects() {
   return (
-    <section className="pt-8 pb-24 px-6 bg-white overflow-hidden">
+    <section className="pt-8 pb-12 px-6 bg-white overflow-hidden">
       <div className="max-w-9xl mx-auto">
         <div className="mb-20">
           <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-orange-100 to-blue-100 text-blue-900 font-semibold mb-6">
@@ -120,27 +120,6 @@ export default function RecentProjects() {
                 </div>
                 <ArrowUpRight className="w-5 h-5 text-orange-500 group-hover:text-orange-600 transition-colors" />
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="bg-gradient-to-r from-blue-900 to-slate-800 p-12 text-white mt-16">
-          <div className="max-w-4xl">
-            <h3 className="text-3xl font-bold mb-4">
-              Ready to Build Your Custom Solution?
-            </h3>
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl">
-              From mobile integrations to specialized automation tools, we
-              create software that fits your exact workflow requirements.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button className="cursor-pointer bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 font-semibold transition-all duration-200 hover:shadow-lg transform hover:-translate-y-1">
-                Start Your Project
-              </button>
-              <button className="cursor-pointer border-2 border-white/30 hover:border-white text-white px-8 py-4 font-semibold transition-all duration-200 hover:bg-white/10">
-                View All Projects
-              </button>
             </div>
           </div>
         </div>

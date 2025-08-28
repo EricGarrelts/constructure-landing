@@ -34,7 +34,7 @@ export default function Solutions() {
   return (
     <section
       id="solutions"
-      className="py-24 px-6 bg-gradient-to-b from-gray-50 to-white"
+      className="pt-28 pb-20 px-6 bg-gradient-to-b from-gray-50 to-white"
     >
       <div className="max-w-9xl mx-auto">
         <div className="mb-20">
@@ -53,7 +53,7 @@ export default function Solutions() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div className="grid md:grid-cols-3 gap-8">
           {solutions.map((solution, index) => (
             <div
               key={index}

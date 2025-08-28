@@ -133,14 +133,14 @@ export default function Home() {
       {/* Recent Projects */}
       <RecentProjects />
 
+      {/* Project Timeline */}
+      <ProjectTimeline />
+
       {/* Industries */}
       <Industries />
 
       {/* Integrations */}
       <Integrations />
-
-      {/* Project Timeline */}
-      <ProjectTimeline />
 
       {/* Footer */}
       <Footer />
