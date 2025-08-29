@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Gift, Clock } from "lucide-react";
+import { Gift, Clock, ChevronDown, Settings, Code, Plug } from "lucide-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 interface NavbarProps {
@@ -24,6 +24,30 @@ export default function Navbar({
   isRaffleModalOpen,
   setIsRaffleModalOpen,
 }: NavbarProps) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [hoveredSolution, setHoveredSolution] = useState<string | null>(null);
+
+  const solutions = [
+    {
+      id: 'ready-to-deploy',
+      name: 'Ready to deploy',
+      icon: Settings,
+      description: 'Pre-existing software that can be curated to fit your business needs. Quick deployment solutions that get you operational fast.'
+    },
+    {
+      id: 'custom-software',
+      name: 'Custom software',
+      icon: Code,
+      description: 'Tailored software solutions built from the ground up to match your exact requirements and business processes.'
+    },
+    {
+      id: 'integrations',
+      name: 'Integrations',
+      icon: Plug,
+      description: 'Integrate with current systems to automate workflow, streamline operations, and enhance productivity across your organization.'
+    }
+  ];
+
   return (
     <nav className="sticky top-0 z-50">
       {/* Main Navbar */}
@@ -43,12 +67,104 @@ export default function Navbar({
           </a>
           <div className="flex items-center space-x-8">
             <div className="hidden md:flex items-center space-x-8">
-              <a
-                href="#solutions"
-                className="text-gray-700 hover:text-blue-900 transition-colors font-medium"
+              {/* Solutions Dropdown */}
+              <div 
+                className="relative"
+                onMouseEnter={() => setIsDropdownOpen(true)}
+                onMouseLeave={() => setIsDropdownOpen(false)}
               >
-                Solutions
-              </a>
+                <button
+                  className="flex items-center space-x-1 text-gray-700 hover:text-blue-900 transition-colors font-medium"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                >
+                  <span>Solutions</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {/* Dropdown Menu */}
+                <div
+                  className="absolute top-full left-0 lg:left-0 md:-left-48 pt-2 w-[600px] max-w-[95vw] z-50"
+                >
+                  <div 
+                    className={`bg-white border-l-4 border-blue-900 transition-all duration-300 ease-out overflow-hidden ${
+                      isDropdownOpen 
+                        ? 'max-h-[400px] opacity-100 shadow-lg transform translate-y-0' 
+                        : 'max-h-0 opacity-0 shadow-none transform -translate-y-2'
+                    }`}
+                  >
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-blue-900 mb-2">Solutions</h3>
+                      <p className="text-gray-600 text-sm mb-6 leading-relaxed">
+                        Enterprise-grade software solutions designed to scale with your construction business, from quick deployments to fully customized platforms.
+                      </p>
+                      
+                      <div className="grid grid-cols-2 gap-6">
+                        {/* Left Column - Navigation Items */}
+                        <div className="space-y-3">
+                          {solutions.map((solution) => {
+                            const IconComponent = solution.icon;
+                            return (
+                              <div
+                                key={solution.id}
+                                className={`flex items-center space-x-3 p-4 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 ${
+                                  hoveredSolution === solution.id
+                                    ? 'bg-blue-50 text-blue-900 border-l-4 border-orange-500'
+                                    : 'hover:bg-gray-50 border-l-4 border-transparent'
+                                }`}
+                                onMouseEnter={() => setHoveredSolution(solution.id)}
+                                onMouseLeave={() => setHoveredSolution(null)}
+                              >
+                                <IconComponent className="w-6 h-6 text-orange-500 flex-shrink-0" />
+                                <span className="font-semibold text-sm">{solution.name}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {/* Right Column - Description */}
+                        <div className="pl-6 border-l border-gray-200">
+                          {hoveredSolution ? (
+                            <div className="space-y-3">
+                              <h4 className="font-bold text-blue-900 text-base">
+                                {solutions.find(s => s.id === hoveredSolution)?.name}
+                              </h4>
+                              <p className="text-gray-600 text-sm leading-relaxed">
+                                {solutions.find(s => s.id === hoveredSolution)?.description}
+                              </p>
+                              <button className="text-blue-900 hover:text-orange-500 font-semibold text-sm transition-colors duration-200 flex items-center">
+                                Learn More
+                                <svg
+                                  className="w-4 h-4 ml-2 transition-transform hover:translate-x-1"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M9 5l7 7-7 7"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="text-gray-500 text-sm leading-relaxed">
+                              <p className="mb-2 font-medium">Choose a solution to explore:</p>
+                              <ul className="space-y-1 text-xs">
+                                <li>• Quick deployment options</li>
+                                <li>• Custom development services</li>
+                                <li>• Seamless system integrations</li>
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <a
                 href="#industries"
                 className="text-gray-700 hover:text-blue-900 transition-colors font-medium"
