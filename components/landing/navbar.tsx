@@ -15,6 +15,7 @@ interface NavbarProps {
   };
   isRaffleModalOpen: boolean;
   setIsRaffleModalOpen: (open: boolean) => void;
+  isHydrated?: boolean;
 }
 
 export default function Navbar({
@@ -23,6 +24,7 @@ export default function Navbar({
   timeLeft,
   isRaffleModalOpen,
   setIsRaffleModalOpen,
+  isHydrated = true,
 }: NavbarProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [hoveredSolution, setHoveredSolution] = useState<string | null>(null);
@@ -68,22 +70,29 @@ export default function Navbar({
           <div className="flex items-center space-x-8">
             <div className="hidden md:flex items-center space-x-8">
               {/* Solutions Dropdown */}
-              <div 
-                className="relative"
-                onMouseEnter={() => setIsDropdownOpen(true)}
-                onMouseLeave={() => setIsDropdownOpen(false)}
-              >
+              <div className="relative">
                 <button
                   className="flex items-center space-x-1 text-gray-700 hover:text-blue-900 transition-colors font-medium"
+                  onMouseEnter={() => setIsDropdownOpen(true)}
+                  onMouseLeave={() => setIsDropdownOpen(false)}
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
                   <span>Solutions</span>
                   <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
+                {/* Hover Bridge - small area directly under button */}
+                <div
+                  className="absolute top-full left-0 w-24 h-2 z-50"
+                  onMouseEnter={() => setIsDropdownOpen(true)}
+                  onMouseLeave={() => setIsDropdownOpen(false)}
+                ></div>
+
                 {/* Dropdown Menu */}
                 <div
-                  className="absolute top-full left-0 lg:left-0 md:-left-48 pt-2 w-[600px] max-w-[95vw] z-50"
+                  className="absolute top-full left-0 lg:left-0 md:-left-48 w-[600px] max-w-[95vw] z-40 mt-2"
+                  onMouseEnter={() => setIsDropdownOpen(true)}
+                  onMouseLeave={() => setIsDropdownOpen(false)}
                 >
                   <div 
                     className={`bg-white border-l-4 border-blue-900 transition-all duration-300 ease-out overflow-hidden ${
@@ -100,13 +109,14 @@ export default function Navbar({
                       
                       <div className="grid grid-cols-2 gap-6">
                         {/* Left Column - Navigation Items */}
-                        <div className="space-y-3">
+                        <div className="space-y-0">
                           {solutions.map((solution) => {
                             const IconComponent = solution.icon;
                             return (
-                              <div
+                              <a
                                 key={solution.id}
-                                className={`flex items-center space-x-3 p-4 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 ${
+                                href={`/solutions/${solution.id}`}
+                                className={`flex items-center space-x-3 p-4 cursor-pointer transition-all duration-300 ${
                                   hoveredSolution === solution.id
                                     ? 'bg-blue-50 text-blue-900 border-l-4 border-orange-500'
                                     : 'hover:bg-gray-50 border-l-4 border-transparent'
@@ -116,7 +126,7 @@ export default function Navbar({
                               >
                                 <IconComponent className="w-6 h-6 text-orange-500 flex-shrink-0" />
                                 <span className="font-semibold text-sm">{solution.name}</span>
-                              </div>
+                              </a>
                             );
                           })}
                         </div>
@@ -131,7 +141,10 @@ export default function Navbar({
                               <p className="text-gray-600 text-sm leading-relaxed">
                                 {solutions.find(s => s.id === hoveredSolution)?.description}
                               </p>
-                              <button className="text-blue-900 hover:text-orange-500 font-semibold text-sm transition-colors duration-200 flex items-center">
+                              <a 
+                                href={`/solutions/${hoveredSolution}`}
+                                className="text-blue-900 hover:text-orange-500 font-semibold text-sm transition-colors duration-200 flex items-center"
+                              >
                                 Learn More
                                 <svg
                                   className="w-4 h-4 ml-2 transition-transform hover:translate-x-1"
@@ -146,7 +159,7 @@ export default function Navbar({
                                     d="M9 5l7 7-7 7"
                                   />
                                 </svg>
-                              </button>
+                              </a>
                             </div>
                           ) : (
                             <div className="text-gray-500 text-sm leading-relaxed">
@@ -185,7 +198,7 @@ export default function Navbar({
         </div>
       </div>
 
-      {/* Raffle Announcement Bar - Only show if there's time left */}
+      {/* Raffle Announcement Bar - Show if there's time left or if not yet hydrated to prevent layout shift */}
       {(timeLeft.days > 0 ||
         timeLeft.hours > 0 ||
         timeLeft.minutes > 0 ||
